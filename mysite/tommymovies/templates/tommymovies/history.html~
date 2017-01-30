@@ -1,0 +1,74 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+
+<a href="{% url 'tommymovies:movie_history_table' %}"><h2>Movie History</h2></a>
+{% if movie_list %}
+    <ul id="history">
+    {% for movie in movie_list %}
+	{% if movie.watched == 1 %}
+        <li><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a>
+	<a href="{% url 'tommymovies:delete' movie.id %}">Delete</a>
+	<a href="{% url 'tommymovies:toggle_watched' movie.id %}">Unwatched</a></li>
+	{% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No movies.</p>
+{% endif %}
+
+<a href="{% url 'tommymovies:to_watch_table' %}"><h2>To Watch List</h2></a>
+{% if movie_list %}
+    <ul id="towatch">
+    {% for movie in movie_list %}
+	{% if movie.watched == 0 %}
+        <li><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a>
+	<a href="{% url 'tommymovies:delete' movie.id %}">Delete</a>
+	<a href="{% url 'tommymovies:toggle_watched' movie.id %}">Watched</a></li>
+	{% endif %}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No movies.</p>
+{% endif %}
+
+
+<h2>Add Movie</h2>
+<form action="{% url 'tommymovies:add' %}" method="post">
+{%csrf_token %}
+	<div class="fieldWrapper">
+	<table>
+		<tr>
+			<th>Name</th>
+			<th> <input type="text" name="name"></th>
+		</tr>
+		<tr>
+			<th>Year</th>
+			<th><input type="text" name="year"></th>
+		</tr>
+		<tr>
+			<th>Watched?</th>
+			<th><input type="radio" name="watched" value="true"> Yes <input type="radio" name="watched" value="false"> No</th>
+		</tr>
+		<tr>
+			<th>Date Watched</th>
+			<th><input type="date" name="watch_date"></th>
+		</tr>
+		<tr>
+			<th>Personal Rating</th>
+			<th><input type="text" name="p_rating"></th>
+		</tr>
+		<tr>
+			<th>IMDB Rating</th>
+			<th><input type="text" name="imdb_rating"></th>
+		</tr>
+		<tr>
+			<th>RT Rating</th>
+			<th><input type="text" name="rt_rating"><br></th>
+		</tr>
+
+	</table>
+	<input type="submit" style="float: right;" value="Add Movie"/>
+	</div>
+</form>
+

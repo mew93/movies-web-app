@@ -1,0 +1,50 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+
+<h2>Movie</h2>
+{% if movie %}
+	<table>
+	<tr>
+		<th>Name</th>
+		<th>{{ movie.name }}</th>
+	</tr>
+	<tr>
+		<th>Year</th>
+		<th>{{ movie.year }}</th>
+	</tr>
+	<tr>
+		<th>Watched?</th>
+		<th>{{ movie.watched }}</th>
+	</tr>
+	<tr>
+		<th>Date Watched</th>
+		<th>{{ movie.watch_date }}</th>
+	</tr>
+	<tr>
+		<th>Personal Rating</th>
+		<th>{{ movie.p_rating }}</th>
+	</tr>
+	<tr>
+		<th>IMDB Rating</th>
+		<th>{{ movie.imdb_rating }}</th>
+	</tr>
+	<tr>
+		<th>RT Rating</th>
+		<th>{{ movie.rt_rating }}</th>
+	</tr>
+	<tr>
+		<th>Genre</th>
+		<th>
+		{% for categories in movie.categories.all %}
+			{{ categories }}
+		{% endfor %}
+		</th>
+	</tr>
+	</table>
+{% else %}
+    <p>Cannot find.</p>
+{% endif %}
+
+<a href="{% url 'tommymovies:history' %}">Back</a>
+<a href="{% url 'tommymovies:edit' movie.id %}">Edit</a>

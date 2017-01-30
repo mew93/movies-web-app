@@ -1,0 +1,40 @@
+from .models import Movie
+from django.forms import ModelForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, MultiField, Div, Field
+from django import forms
+from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
+
+class CommonLayout(Layout):
+	def __init__(self, *args, **kwargs):
+		super(CommonLayout, self).__init__(
+			'name',
+			'watch_date', 
+			'p_rating', 
+			'imdb_rating', 
+			'rt_rating'
+		)
+
+class MovieForm(ModelForm):
+	class Meta:
+		model = Movie
+		fields = ('name', 'year', 'watched', 'watch_date', 'p_rating', 'imdb_rating', 'rt_rating')
+
+class MovieTableFormHelper(FormHelper):
+	model = Movie
+	form_tag = False
+	name = forms.CharField(
+		widget = forms.Textarea(),
+	)
+	year = forms.CharField(
+		widget = forms.Textarea()
+	)
+
+	form_id = 'id-exampleForm'
+	form_class = 'blueForms'
+	form_method = 'post'
+	form_action = 'submit_survey'
+
+	layout = CommonLayout()
+
+

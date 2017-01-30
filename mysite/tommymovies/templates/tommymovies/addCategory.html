@@ -1,0 +1,18 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+
+<form action="" method="post">
+{%csrf_token %}
+	<div class="fieldWrapper">
+	<table>
+		<tr>
+			<th>Genre</th>
+			<th>{{ form.genre }} {{ form.errors.genre }}</th>
+		</tr>
+	</table>
+	<input type="submit" style="float: right;" value="Add Category"/> <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+	</div>
+</form>
+
+
