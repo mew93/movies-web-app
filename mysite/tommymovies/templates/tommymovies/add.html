@@ -34,6 +34,22 @@
 			<th>RT Rating</th>
 			<th>{{ form.rt_rating }} {{ form.errors.rt_rating }}</th>
 		</tr>
+		<tr>
+			<th>IMDB URL</th>
+			<th>{{ form.imdb_url }} {{ form.errors.imdb_url }}</th>
+		</tr>
+		<tr>
+			<th>RT URL</th>
+			<th>{{ form.rt_url }} {{ form.errors.rt_url }}</th>
+		</tr>
+		<tr>
+			<th>Douban URL</th>
+			<th>{{ form.douban_url }} {{ form.errors.douban_url }}</th>
+		</tr>
+		<tr>
+			<th>Comment</th>
+			<th>{{ form.comment }} {{ form.errors.comment }}</th>
+		</tr>
 	</table>
 	<input type="submit" style="float: right;" value="Add Movie"/> <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
 	</div>

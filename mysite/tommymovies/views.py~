@@ -11,19 +11,25 @@ from tables import MovieTable
 from .filters import MovieFilter
 from .forms import MovieTableFormHelper
 from utils import PagedFilteredTableView
+from scrapyd_api import ScrapydAPI
 
 class WatchHistoryView(generic.ListView):
 	template_name = 'tommymovies/history.html'
 	context_object_name = 'movie_list'
 	form_class = CategoryForm
+	movie_form_class = MovieForm
 
 	def get_form(self):
 		form = self.form_class()
 		return form
+	
+	def get_movie_form(self):
+		form = self.movie_form_class()
+		return form
+
 	def get_context_data(self, **kwargs):
 		context = super(WatchHistoryView, self).get_context_data(**kwargs)
-		context.update({
-		'category_form': self.get_form(),})
+		context.update({'category_form': self.get_form(),'movie_form': self.get_movie_form()})
 		return context
 
 	def get_queryset(self):
@@ -58,13 +64,14 @@ def add(request):
 		form = MovieForm(request.POST)
 		if form.is_valid():
 			new_movie = Movie.objects.create_movie(**form.cleaned_data)
-		try:
-			genre_id=request.POST.get('genre','')
-			new_category = get_object_or_404(Category, id=genre_id)
-			new_movie.categories.add(new_category)
-		except:
-			pass
-		new_movie.save()
+			try:
+				genre_id=request.POST.getlist('genre','')
+				for id in genre_id:
+					new_category = get_object_or_404(Category, id=id)
+					new_movie.categories.add(new_category)
+			except:
+				pass
+			new_movie.save()
 
 			return HttpResponseRedirect(reverse('tommymovies:history'))
 	else:
@@ -96,17 +103,22 @@ def edit_submit(request, movie_id):
 	movie = get_object_or_404(Movie, id=movie_id)
 	if request.method == "POST":
 		form = MovieForm(request.POST)
+		form.data = form.data.copy()
+		category_id_list = []
 		listgenres= request.POST.getlist('categories')
 		for genre in movie.categories.all():
 			movie.categories.remove(genre)
 		for genre in listgenres:
 			try:
 				category = get_object_or_404(Category, genre=genre)
+				category_id = str(category.id).encode("utf-8").decode("utf-8")
+				category_id_list.append(category_id)
 			except:
 				pass	
 			else:
 				if genre not in movie.categories.all():
 					movie.categories.add(category)
+				form.data.setlist('categories', category_id_list)
 		try:
 			genre_id=request.POST.get('genre','')
 			new_category = get_object_or_404(Category, id=genre_id)
@@ -114,17 +126,27 @@ def edit_submit(request, movie_id):
 			movie.save()
 		except:
 			pass
+		
+		#hack to avoid '"" is not a valid value for a primary key' error
+		sample_category = get_object_or_404(Category, id=1)
+		sample_category_id = str(sample_category.id).encode("utf-8").decode("utf-8")
+		category_id_list.append(sample_category_id)
+		form.data.setlist('categories', category_id_list)
 
 		if form.is_valid():
-			movie.name = form.cleaned_data['name']
-			movie.year = form.cleaned_data['year']
-			movie.watched = form.cleaned_data['watched']
-			movie.watch_date = form.cleaned_data['watch_date']
-			movie.p_rating = form.cleaned_data['p_rating']
-			movie.imdb_rating = form.cleaned_data['imdb_rating']
-			movie.rt_rating = form.cleaned_data['rt_rating']
+			movie.name = form.cleaned_data['name']#request.POST.get("name", "")#
+			movie.year = form.cleaned_data['year']#request.POST.get("year", "")#
+			movie.watched = form.cleaned_data['watched']#request.POST.get("watched", "")#
+			movie.watch_date = form.cleaned_data['watch_date'] #request.POST.get("watch_date", "")#
+			movie.p_rating = form.cleaned_data['p_rating']#request.POST.get("p_rating", "")#
+			movie.imdb_rating = form.cleaned_data['imdb_rating']#request.POST.get("imdb_rating", "")#
+			movie.rt_rating = form.cleaned_data['rt_rating']#request.POST.get("rt_rating", "")#
+			movie.imdb_url = form.cleaned_data['imdb_url']#request.POST.get("imdb_url", "")#
+			movie.rt_url = form.cleaned_data['rt_url']#request.POST.get("rt_url", "")#
+			movie.douban_url = form.cleaned_data['douban_url']#request.POST.get("douban_url", "")#
+			movie.comment = form.cleaned_data['comment']#request.POST.get("comment", "")
 			movie.save()
-			return render(request, 'tommymovies/movie.html', {'movie': movie })
+		return render(request, 'tommymovies/movie.html', {'movie': movie, 'form': form, 'listgenres':listgenres})
 	else:
 		form = MovieForm(instance=movie)
 	#return render(request, 'tommymovies/movie.html', {'movie': movie })
@@ -222,5 +244,15 @@ def categorize(request):
 	movie.save()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def addByUrl_form(request):
+	form = MovieForm()
+	return render(request, 'tommymovies/urlAdd.html',{'form': form })
+
+def addByUrl_submit(request):
+	start_url=request.POST.get('imdb_url','')
+	scrapyd = ScrapydAPI('http://localhost:6800')
+	jobID = scrapyd.schedule('imdbscrapper', 'movie', start_url=start_url)
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'),{'jobID': jobID })
+	#return render(request, 'tommymovies/history.html',{'jobID': jobID })
 
 		

@@ -14,29 +14,40 @@
 	</tr>
 	<tr>
 		<th>Year</th>
-		<th><input type="text" name="year" value= "{{ movie.year }}"></th>
+		<th><input type="number" name="year" value= "{{ movie.year }}"></th>
 	</tr>
 	<tr>
 		<th>Watched?</th>
-		<th><input type="text" name="watched" value= "{{ movie.watched }}"></th>
+		<th><input type="checkbox" name="watched" {% if movie.watched %} checked="checked"{% endif %}></th>
 	</tr>
 	<tr>
 		<th>Date Watched</th>
-		<th><input type="text" name="watch_date" value= "{{ movie.watch_date }}"></th>
+		<th><input type="date" name="watch_date" value= "{{movie.watch_date|date:'Y-m-d'}}"></th>
 	</tr>
 	<tr>
 		<th>Personal Rating</th>
-		<th><input type="text" name="p_rating" value= "{{ movie.p_rating }}"></th>
+		<th><input type="number" step="0.01" name="p_rating" value= "{{ movie.p_rating }}"></th>
 	</tr>
 	<tr>
 		<th>IMDB Rating</th>
-		<th><input type="text" name="imdb_rating" value= "{{ movie.imdb_rating }}"></th>
+		<th><input type="number" step="0.01" name="imdb_rating" value= "{{ movie.imdb_rating }}"></th>
 	</tr>
 	<tr>
 		<th>RT Rating</th>
-		<th><input type="text" name="rt_rating" value= "{{ movie.rt_rating }}"></th>
+		<th><input type="number" name="rt_rating" value= "{{ movie.rt_rating }}"></th>
 	</tr>
-
+	<tr>
+		<th>IMDB URL</th>
+		<th><input type="text" name="imdb_url" value= "{{ movie.imdb_url }}"></th>
+	</tr>
+	<tr>
+		<th>RT URL</th>
+		<th><input type="text" name="rt_url" value= "{{ movie.rt_url }}"></th>
+	</tr>
+	<tr>
+		<th>Douban URL</th>
+		<th><input type="text" name="douban_url" value= "{{ movie.douban_url }}"></th>
+	</tr>
 	{% for categories in movie.categories.all %}
 	<tr>
 		<th>Genre</th>
@@ -44,6 +55,10 @@
 	</tr>
 	{% endfor %}
 	<tr> {{ category_form }} </tr>
+	<tr>
+		<th>Comment</th>
+		<th><input type="text" name="comment" value= "{{ movie.comment }}"></th>
+	</tr>
 	</table>
 	<a href="{{ request.META.HTTP_REFERER }}">Back</a>
 	<input type="submit" style="float: right;" value="Submit Changes"/>

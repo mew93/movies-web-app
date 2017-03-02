@@ -21,5 +21,7 @@ urlpatterns = [
 	url(r'^categorize/submit$', views.categorize, name = 'categorize_submit'),
 	url(r'^movie/add$', views.addMovie, name = 'addMovie'),
 	url(r'^movie/add/submit$', views.addMovieSubmit, name = 'addMovieSubmit'),
+	url(r'^url/$', views.addByUrl_form, name = 'addByUrl_form'),
+	url(r'^url/submit$', views.addByUrl_submit, name = 'addByUrl_submit'),
 
 ]

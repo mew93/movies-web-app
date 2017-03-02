@@ -8,6 +8,7 @@
 	<table>
 		<tr>
 			{{ movie_form }}
+			{{ category_form }}
 		</tr>
 	</table>
 	
@@ -15,3 +16,5 @@
 	<a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
 	</div>
 </form>
+
+

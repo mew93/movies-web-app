@@ -1,12 +1,11 @@
 {% load render_table from django_tables2 %}
 {% load crispy_forms_tags %}
-{% load static %}
 
 <!doctype html>
 <html>
     <head>
 	<h2>{{ title }}</h2>
-        <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{%  'tommymovies/style.css' %}" />
     </head>
     <body>
 	<div style="text-align:right;width:900px">   
@@ -20,7 +19,7 @@
 		{% crispy filter.form filter.form.helper  %}	
 		<input type="submit" value="Filter"/>
 	</form>
-	<a href="{{ request.path }}">Show All Results</a> </br>
+	<a href="{{ request.path }}">Show All</a> </br>
 	<a href="{% url 'tommymovies:history' %}">Home</a>
 
 </html>
