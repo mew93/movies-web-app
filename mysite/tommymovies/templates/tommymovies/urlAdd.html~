@@ -15,4 +15,4 @@
 	</div>
 </form>
 
-<p> <b>Submitted:</b> {{ jobID }} </p>
+<p> <b>Submitted: </b> {{ jobID }} </p>
