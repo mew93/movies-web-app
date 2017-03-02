@@ -1,0 +1,20 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+
+<form action="{% url 'tommymovies:addMovieSubmit' %}" method="post">
+{%csrf_token %}
+	<div class="fieldWrapper">
+	<table>
+		<tr>
+			{{ movie_form }}
+			{{ category_form }}
+		</tr>
+	</table>
+	
+	<input type="submit" style="float: right;" value="Add Movie"/> 
+	<a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+	</div>
+</form>
+
+

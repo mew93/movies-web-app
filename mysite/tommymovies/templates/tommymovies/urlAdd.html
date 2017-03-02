@@ -1,0 +1,18 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+
+<form action="{% url 'tommymovies:addByUrl_submit' %}" method="post">
+{%csrf_token %}
+	<div class="fieldWrapper">
+	<table>
+		<tr>
+			<th>URL</th>
+			<th>{{ form.imdb_url }} {{ form.errors.imdb_url }}</th>
+		</tr>
+	</table>
+	<input type="submit" style="float: right;" value="Add Movie by URL"/> <a href="{% url 'tommymovies:history' %}">Back</a>
+	</div>
+</form>
+
+<p> <b>Submitted: </b> {{ jobID }} </p>
