@@ -57,3 +57,7 @@ class CategoryForm(ModelForm):
 		self.fields['genre'] =  ModelChoiceField(queryset=Category.objects.all(), empty_label="Choose a genre",)
 		self.fields['genre'].required = False
 
+class NewCategoryForm(ModelForm):
+	class Meta:
+		model = Category
+		fields = ('genre',)

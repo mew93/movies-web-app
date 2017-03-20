@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from .models import Movie, Category
-from forms import MovieForm, CategoryForm
+from forms import MovieForm, CategoryForm, NewCategoryForm
 from django_datatables_view.base_datatable_view import BaseDatatableView
 from django_tables2 import RequestConfig
 from tables import MovieTable
@@ -222,12 +222,12 @@ def addMovieSubmit(request):
 
 def addCategory(request):
 	if request.method == "POST":
-		form = CategoryForm(request.POST)
+		form = NewCategoryForm(request.POST)
 		if form.is_valid():
 			new_category = Category.objects.create(**form.cleaned_data)
 			return HttpResponseRedirect(reverse('tommymovies:history'))
 	else:
-		form = CategoryForm()
+		form = NewCategoryForm()
 
 	return render(request, 'tommymovies/addCategory.html', {'form': form })
 
