@@ -23,26 +23,31 @@ class MySQLStorePipeline(object):
 
 	def process_item(self, item, spider):    
 	    try:
-		self.cursor.execute("""INSERT INTO imdbscrapper_data (title, year, rating, genre1, genre2, genre3, duration, url)  
-			        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""", 
+		self.cursor.execute("""INSERT INTO imdbscrapper_data (title, year, imdb_rating, imdb_url, rt_critic_rating, rt_audience_rating, rt_url, genre1, genre2, genre3, duration)  
+			        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
 			       (item['name'], 
 			        item['year'],
-					item['rating'],
+					item['imdb_rating'],
+					item['imdb_url'],
+			       	item['rt_critic_rating'],
+					item['rt_audience_rating'],
+					item['rt_url'],
 					item['genre1'],
 					item['genre2'],
 					item['genre3'],
-					item['duration'],
-					item['url']))
+					item['duration']))
 
-		self.cursor.execute("""INSERT INTO tommymovies_movie (name, year, imdb_rating, imdb_url, comment) VALUES (%s, %s, %s, %s, %s)""",
+		self.cursor.execute("""INSERT INTO tommymovies_movie (name, year, imdb_rating, imdb_url, rt_rating, rt_url, comment) VALUES (%s, %s, %s, %s, %s, %s, %s)""",
 			       (item['name'], 
 			        item['year'],
-					item['rating'],
-					item['url'],
+					item['imdb_rating'],
+					item['imdb_url'],
+					item['rt_audience_rating'],
+					item['rt_url'],
 					item['duration']))
 
 		new_movie_id = self.cursor.lastrowid
-		spider.log('Well, here is an new move id : %s.' % new_movie_id)
+		spider.log('Well, here is an new movie id : %s.' % new_movie_id)
 		spider.log('printing genre1:%s' % item['genre1'])
 		spider.log('printing genre2: %s' % item['genre2'])
 		spider.log('printing genre3: %s' % item['genre3'])
