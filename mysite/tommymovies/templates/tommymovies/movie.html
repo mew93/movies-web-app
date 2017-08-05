@@ -2,6 +2,15 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
 
+<head>
+	<ul class ="navheader">
+	  <li class="navbar"><a class="active" href="{% url 'tommymovies:history' %}">Home</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:movie_history_table' %}">Movie History</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:to_watch_table' %}">To Watch</a></li>
+	</ul>
+</head>
+
+
 <h2>Movie</h2>
 {% if movie %}
 	<table>
@@ -31,7 +40,7 @@
 	</tr>
 	<tr>
 		<th>IMDB URL</th>
-		<th>{{ movie.imdb_url }}</th>
+		<th><a href="{{ movie.imdb_url }}" target="_blank">{{ movie.imdb_url }}</a></th>
 	</tr>
 	<tr>
 		<th>RT Rating</th>
@@ -39,7 +48,7 @@
 	</tr>
 	<tr>
 		<th>RT URL</th>
-		<th>{{ movie.rt_url }}</th>
+		<th><a href="{{ movie.rt_url }}" target="_blank">{{ movie.rt_url }}</a></th>
 	</tr>
 	<tr>
 		<th>Genre</th>

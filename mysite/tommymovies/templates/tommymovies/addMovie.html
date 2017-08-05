@@ -2,6 +2,14 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
 
+<head>
+	<ul class ="navheader">
+	  <li class="navbar"><a class="active" href="{% url 'tommymovies:history' %}">Home</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:movie_history_table' %}">Movie History</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:to_watch_table' %}">To Watch</a></li>
+	</ul>
+</head>
+
 <form action="{% url 'tommymovies:addMovieSubmit' %}" method="post">
 {%csrf_token %}
 	<div class="fieldWrapper">

@@ -1,110 +1,144 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script src="{% static 'tommymovies/functions.js' %}"></script>   
 
-<a href="{% url 'tommymovies:movie_history_table' %}"><h2>Movie History</h2></a>
-{% if movie_list %}
-    <ul id="history">
-    {% for movie in movie_list %}
-	{% if movie.watched == 1 %}
-        <li><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a>
-	<a href="{% url 'tommymovies:delete' movie.id %}">Delete</a>
-	<a href="{% url 'tommymovies:toggle_watched' movie.id %}">Unwatched</a></li>
-	{% endif %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No movies.</p>
-{% endif %}
+<head>
+	<ul class ="navheader">
+	  <li class="navbar"><a class="active" href="{% url 'tommymovies:history' %}">Home</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:movie_history_table' %}">Movie History</a></li>
+	  <li class="navbar"><a href="{% url 'tommymovies:to_watch_table' %}">To Watch</a></li>
+	</ul>
+</head>
 
-<a href="{% url 'tommymovies:to_watch_table' %}"><h2>To Watch List</h2></a>
-{% if movie_list %}
-    <ul id="towatch">
-    {% for movie in movie_list %}
-	{% if movie.watched == 0 %}
-        <li><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a>
-	<a href="{% url 'tommymovies:delete' movie.id %}">Delete</a>
-	<a href="{% url 'tommymovies:toggle_watched' movie.id %}">Watched</a></li>
-	{% endif %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No movies.</p>
-{% endif %}
-
-
-<h2>Add Movie</h2>
-<h3>IMDB URL</h3>
-<form action="{% url 'tommymovies:addByUrl_submit' %}" method="post">
-{%csrf_token %}
-	<div class="fieldWrapper">
-	<table>
-		<tr>
-			<th>URL</th>
-			<th>{{ movie_form.imdb_url }} {{ movie_form.errors.imdb_url }}</th>
-		</tr>
-	</table>
-	<input type="submit" style="float: right;" value="Add Movie by URL"/>
+<div id="wrapper">
+	<div id="first">
+		<a href="{% url 'tommymovies:movie_history_table' %}"><h2 class="title">Movie History</h2></a>
+		{% if movie_list %}
+		    <ul id="history">
+		    {% for movie in movie_list %}
+			{% if movie.watched == 1 %}
+		        <li><b><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a></b>
+			<a href="{% url 'tommymovies:delete' movie.id %}" onclick="return confirm('Delete {{ movie.name }}?');">[D]</a>
+			<a href="{% url 'tommymovies:toggle_watched' movie.id %}">[UW]</a></li>
+			{% endif %}
+		    {% endfor %}
+		    </ul>
+		{% else %}
+		    <p>No movies.</p>
+		{% endif %}
 	</div>
-</form>
 
-<p> {{ jobID }} </p>
-
-<h3>Form</h3>
-<form action="{% url 'tommymovies:add' %}" method="post">
-{%csrf_token %}
-	<div class="fieldWrapper">
-	<table>
-		<tr>
-			<th>Name</th>
-			<th> <input type="text" name="name"></th>
-		</tr>
-		<tr>
-			<th>Year</th>
-			<th><input type="text" name="year"></th>
-		</tr>
-		<tr>
-			<th>Watched?</th>
-			<th><input type="radio" name="watched" value="true"> Yes <input type="radio" name="watched" value="false"> No</th>
-		</tr>
-		<tr>
-			<th>Date Watched</th>
-			<th><input type="date" name="watch_date"></th>
-		</tr>
-		<tr>
-			<th>Personal Rating</th>
-			<th><input type="text" name="p_rating"></th>
-		</tr>
-		<tr>
-			<th>IMDB Rating</th>
-			<th><input type="text" name="imdb_rating"></th>
-		</tr>
-		<tr>
-			<th>IMDB URL</th>
-			<th><input type="text" name="imdb_url"><br></th>
-		</tr>
-		<tr>
-			<th>RT Rating</th>
-			<th><input type="text" name="rt_rating"><br></th>
-		</tr>
-		<tr>
-			<th>RT URL</th>
-			<th><input type="text" name="rt_url"><br></th>
-		</tr>
-		<tr>
-			<th>Douban URL</th>
-			<th><input type="text" name="douban_url"><br></th>
-		</tr>
-		<tr> {{ category_form }} </tr>
-		<tr> {{ category_form }} </tr>
-		<tr> {{ category_form }} </tr>
-		<tr>
-			<th>Comment</th>
-			<th><input type="text" name="comment"><br></th>
-		</tr>	
-
-	</table>
-	<input type="submit" style="float: right;" value="Add Movie"/>
+	<div id="second">
+		<a href="{% url 'tommymovies:to_watch_table' %}"><h2 class="title">To Watch List</h2></a>
+		{% if movie_list %}
+		    <ul id="towatch">
+		    {% for movie in movie_list %}
+			{% if movie.watched == 0 %}
+		        <li><b><a href="{% url 'tommymovies:movie' movie.id %}">{{ movie.name }}</a></b>
+			<a href="{% url 'tommymovies:delete' movie.id %}" onclick="return confirm('Delete {{ movie.name }}?');">[D]</a>
+			<a href="{% url 'tommymovies:toggle_watched' movie.id %}">[W]</a></li>
+			{% endif %}
+		    {% endfor %}
+		    </ul>
+		{% else %}
+		    <p>No movies.</p>
+		{% endif %}
 	</div>
-</form>
+
+
+	<div id="third">
+		<h2 class="title">Add Movie</h2>
+		<p></p>
+		<div style="text-align:center;">
+			<button type="reset" onclick="showHide()" class="myButton">Show/Hide All</button> <br>
+		</div>
+
+		<p></p>
+		<br>
+		<div style="text-align:center;">
+			<button onclick="showHide('URLForm')" class="myButton"><h3>IMDB URL</h3></button>
+		</div>
+		<div id="URLForm" class ="hidden">
+			<form action="{% url 'tommymovies:addByUrl_submit' %}" method="post">
+			{%csrf_token %}
+				<div class="fieldWrapper" style="margin: auto;">
+				<table>
+					<tr>
+						<th>URL</th>
+						<th>{{ movie_form.imdb_url }} {{ movie_form.errors.imdb_url }}</th>
+					</tr>
+				</table>
+				<input type="submit" style="float: right;" value="Add Movie by URL" class="myButton"/>
+				</div>
+			</form>
+		</div>
+		<p> {{ jobID }} </p>
+
+		<br>
+		<div style="text-align:center;">
+			<button onclick="showHide('FullForm')" class="myButton"><h3>Form</h3></button>
+		</div>
+		<div id="FullForm" class ="hidden">
+			<form action="{% url 'tommymovies:add' %}" method="post">
+
+			{%csrf_token %}
+				<div class="fieldWrapper" style="margin: auto;">
+				<table>
+					<tr>
+						<th>Name</th>
+						<th> <input type="text" name="name"></th>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<th><input type="text" name="year"></th>
+					</tr>
+					<tr>
+						<th>Watched?</th>
+						<th><input type="radio" name="watched" value="true"> Yes <input type="radio" name="watched" value="false"> No</th>
+					</tr>
+					<tr>
+						<th>Date Watched</th>
+						<th><input type="date" name="watch_date"></th>
+					</tr>
+					<tr>
+						<th>Personal Rating</th>
+						<th><input type="text" name="p_rating"></th>
+					</tr>
+					<tr>
+						<th>IMDB Rating</th>
+						<th><input type="text" name="imdb_rating"></th>
+					</tr>
+					<tr>
+						<th>IMDB URL</th>
+						<th><input type="text" name="imdb_url"><br></th>
+					</tr>
+					<tr>
+						<th>RT Rating</th>
+						<th><input type="text" name="rt_rating"><br></th>
+					</tr>
+					<tr>
+						<th>RT URL</th>
+						<th><input type="text" name="rt_url"><br></th>
+					</tr>
+					<tr>
+						<th>Douban URL</th>
+						<th><input type="text" name="douban_url"><br></th>
+					</tr>
+					<tr> {{ category_form }} </tr>
+					<tr> {{ category_form }} </tr>
+					<tr> {{ category_form }} </tr>
+					<tr>
+						<th>Comment</th>
+						<th><input type="text" name="comment"><br></th>
+					</tr>	
+
+				</table>
+				<input type="submit" style="float: right;" value="Add Movie" class="myButton"/>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 

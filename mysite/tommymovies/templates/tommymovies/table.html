@@ -5,23 +5,30 @@
 <!doctype html>
 <html>
     <head>
-	<h2>{{ title }}</h2>
-        <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+	 	<ul class ="navheader">
+		  <li class="navbar"><a class="active" href="{% url 'tommymovies:history' %}">Home</a></li>
+		  <li class="navbar"><a href="{% url 'tommymovies:movie_history_table' %}">Movie History</a></li>
+		  <li class="navbar"><a href="{% url 'tommymovies:to_watch_table' %}">To Watch</a></li>
+		</ul>
+	    <link rel="stylesheet" type="text/css" href="{% static 'tommymovies/style.css' %}" />
+	    <h2 class="title">{{ title }}</h2>
     </head>
     <body>
-	<div style="text-align:right;width:900px">   
-		<a href="{{ request.path }}?per_page=5">5</a>
-		<a href="{{ request.path }}?per_page=10">10</a>
-		<a href="{{ request.path }}?per_page=25">25</a>
-	</div>
-        {% render_table table %}
+		<div style="text-align:right;width:900px">   
+
+		</div>
+   		{% render_table table %}
+		<a href="{{ request.path }}?per_page=5" class="myButton" style="color:white;">5</a>
+		<a href="{{ request.path }}?per_page=10" class="myButton" style="color:white;">10</a>
+		<a href="{{ request.path }}?per_page=25" class="myButton" style="color:white;">25</a>
+    	<a href="{{ request.path }}" class="myButton" style="color:white;">Show All</a> </br>
     </body>
 	<form action="" method="get">
-		{% crispy filter.form filter.form.helper  %}	
-		<input type="submit" value="Filter"/>
+		<div id="filterform"> 
+			{% crispy filter.form filter.form.helper  %}
+			<input type="submit" value="Filter" class="myButton"style="float: right;" />	
+		</div>
 	</form>
-	<a href="{{ request.path }}">Show All</a> </br>
-	<a href="{% url 'tommymovies:history' %}">Home</a>
 
 </html>
 
