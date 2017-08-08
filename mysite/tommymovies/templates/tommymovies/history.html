@@ -52,7 +52,7 @@
 		<h2 class="title">Add Movie</h2>
 		<p></p>
 		<div style="text-align:center;">
-			<button type="reset" onclick="showHide()" class="myButton">Show/Hide All</button> <br>
+			<button type="reset" onclick="showHide()" class="myButton">Show/Hide</button> <br>
 		</div>
 
 		<p></p>
@@ -60,10 +60,10 @@
 		<div style="text-align:center;">
 			<button onclick="showHide('URLForm')" class="myButton"><h3>IMDB URL</h3></button>
 		</div>
-		<div id="URLForm" class ="hidden">
+		<div id="URLForm" class ="hidden" style="display:block;">
 			<form action="{% url 'tommymovies:addByUrl_submit' %}" method="post">
 			{%csrf_token %}
-				<div class="fieldWrapper" style="margin: auto;">
+				<div class="fieldWrapper" style="margin:auto;">
 				<table>
 					<tr>
 						<th>URL</th>
@@ -80,11 +80,11 @@
 		<div style="text-align:center;">
 			<button onclick="showHide('FullForm')" class="myButton"><h3>Form</h3></button>
 		</div>
-		<div id="FullForm" class ="hidden">
+		<div id="FullForm" class ="hidden" style="display:block;">
 			<form action="{% url 'tommymovies:add' %}" method="post">
 
 			{%csrf_token %}
-				<div class="fieldWrapper" style="margin: auto;">
+				<div class="fieldWrapper" style="margin:auto;">
 				<table>
 					<tr>
 						<th>Name</th>

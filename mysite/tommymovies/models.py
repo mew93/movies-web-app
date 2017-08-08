@@ -26,6 +26,7 @@ class Movie(models.Model):
 	imdb_url = models.CharField(max_length=512, null=True,blank=True)
 	douban_url = models.CharField(max_length=512, null=True,blank=True)
 	comment = models.TextField(null=True,blank=True)
+	imdb_img = models.CharField(max_length=512, null=True,blank=True)
 	def __str__(self):
 		return self.name
 	objects = MovieManager()

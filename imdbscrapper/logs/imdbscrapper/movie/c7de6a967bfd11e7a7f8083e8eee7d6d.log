@@ -1,0 +1,91 @@
+2017-08-08 01:52:39 [scrapy.utils.log] INFO: Scrapy 1.3.1 started (bot: imdbscrapper)
+2017-08-08 01:52:39 [scrapy.utils.log] INFO: Overridden settings: {'NEWSPIDER_MODULE': 'imdbscrapper.spiders', 'SPIDER_MODULES': ['imdbscrapper.spiders'], 'LOG_FILE': 'logs/imdbscrapper/movie/c7de6a967bfd11e7a7f8083e8eee7d6d.log', 'USER_AGENT': 'imdbscrapper (+http://www.yourdomain.com)', 'BOT_NAME': 'imdbscrapper'}
+2017-08-08 01:52:40 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2017-08-08 01:52:40 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-08-08 01:52:40 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-08-08 01:52:40 [scrapy.middleware] INFO: Enabled item pipelines:
+['imdbscrapper.pipelines.MySQLStorePipeline']
+2017-08-08 01:52:40 [scrapy.core.engine] INFO: Spider opened
+2017-08-08 01:52:40 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-08-08 01:52:40 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-08-08 01:52:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://www.imdb.com/title/tt0451279/> (referer: None)
+2017-08-08 01:52:40 [py.warnings] WARNING: imdbscrapper/spiders/movie_spider.py:26: ScrapyDeprecationWarning: Call to deprecated function select. Use .xpath() instead.
+  item['imdb_img'] = movie.select('//div[@class="poster"]/a/img/@src').extract()
+
+2017-08-08 01:52:40 [movie] INFO: Logged: IMDB_IMG [u'https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg']
+2017-08-08 01:52:40 [movie] INFO: Logged: search_url proper_string True
+2017-08-08 01:52:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://www.bing.com/search?q=rotten+tomatoes+Wonder%20Woman%20+2017> (referer: http://www.imdb.com/title/tt0451279/)
+2017-08-08 01:52:41 [movie] INFO: Logged rt_url https://www.rottentomatoes.com/m/wonder_woman_2017/
+2017-08-08 01:52:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.rottentomatoes.com/m/wonder_woman_2017/> (referer: http://www.bing.com/search?q=rotten+tomatoes+Wonder%20Woman%20+2017)
+2017-08-08 01:52:41 [py.warnings] WARNING: imdbscrapper/pipelines.py:39: Warning: Data truncated for column 'rt_url' at row 1
+  item['imdb_img']))
+
+2017-08-08 01:52:41 [py.warnings] WARNING: imdbscrapper/pipelines.py:39: Warning: Data truncated for column 'imdb_img' at row 1
+  item['imdb_img']))
+
+2017-08-08 01:52:41 [py.warnings] WARNING: imdbscrapper/pipelines.py:49: Warning: Field 'watched' doesn't have a default value
+  item['imdb_img']))
+
+2017-08-08 01:52:41 [py.warnings] WARNING: imdbscrapper/pipelines.py:49: Warning: Data truncated for column 'rt_rating' at row 1
+  item['imdb_img']))
+
+2017-08-08 01:52:41 [movie] DEBUG: Well, here is an new movie id : 165.
+2017-08-08 01:52:41 [movie] DEBUG: printing genre1:Action
+2017-08-08 01:52:41 [movie] DEBUG: printing genre2: Adventure
+2017-08-08 01:52:41 [movie] DEBUG: printing genre3: Fantasy
+2017-08-08 01:52:41 [movie] DEBUG: Well, here is an gebre1 id : 13.
+2017-08-08 01:52:41 [movie] DEBUG: Well, here is an gebre2 id : 7.
+2017-08-08 01:52:41 [movie] DEBUG: Well, here is an gebre3 id : 14.
+2017-08-08 01:52:41 [scrapy.core.scraper] DEBUG: Scraped from <200 https://www.rottentomatoes.com/m/wonder_woman_2017/>
+{'duration': u'2h 21min',
+ 'genre1': u'Action',
+ 'genre2': u'Adventure',
+ 'genre3': u'Fantasy',
+ 'imdb_img': [u'https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg'],
+ 'imdb_rating': [u'7.9'],
+ 'imdb_url': 'http://www.imdb.com/title/tt0451279/',
+ 'name': u'Wonder Woman ',
+ 'rt_audience_rating': u'90%',
+ 'rt_critic_rating': u'92',
+ 'rt_url': 'https://www.rottentomatoes.com/m/wonder_woman_2017/',
+ 'year': u'2017'}
+2017-08-08 01:52:41 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-08-08 01:52:41 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 872,
+ 'downloader/request_count': 3,
+ 'downloader/request_method_count/GET': 3,
+ 'downloader/response_bytes': 167896,
+ 'downloader/response_count': 3,
+ 'downloader/response_status_count/200': 3,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 8, 8, 5, 52, 41, 966727),
+ 'item_scraped_count': 1,
+ 'log_count/DEBUG': 12,
+ 'log_count/INFO': 10,
+ 'log_count/WARNING': 5,
+ 'request_depth_max': 2,
+ 'response_received_count': 3,
+ 'scheduler/dequeued': 3,
+ 'scheduler/dequeued/memory': 3,
+ 'scheduler/enqueued': 3,
+ 'scheduler/enqueued/memory': 3,
+ 'start_time': datetime.datetime(2017, 8, 8, 5, 52, 40, 140289)}
+2017-08-08 01:52:41 [scrapy.core.engine] INFO: Spider closed (finished)

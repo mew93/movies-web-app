@@ -16,6 +16,7 @@ class MovieItem(scrapy.Item):
 	year = scrapy.Field()
 	imdb_rating = scrapy.Field()
 	imdb_url = scrapy.Field()
+	imdb_img = scrapy.Field()
 	rt_critic_rating = scrapy.Field()
 	rt_audience_rating = scrapy.Field()
 	rt_url = scrapy.Field()

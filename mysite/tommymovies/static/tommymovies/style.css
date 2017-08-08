@@ -79,9 +79,9 @@ a:active {
     float:right;
 }
 
-#URLForm { display:none;}
-#FullForm { display:none;}
-.hidden { display:none;}
+#URLForm { display:block;}
+#FullForm { display:block;}
+.hidden { display:block;}
 h2,h3{
     margin:0;
     padding:0;

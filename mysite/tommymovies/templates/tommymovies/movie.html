@@ -10,65 +10,72 @@
 	</ul>
 </head>
 
+<h2 class="title">{{ movie.name }}</h2>
 
-<h2>Movie</h2>
+<div style='float:left'>
+	{% if movie.imdb_img %} <img src="{{ movie.imdb_img }}"> {% endif %}
+</div>
+
 {% if movie %}
-	<table>
-	<tr>
-		<th>Name</th>
-		<th>{{ movie.name }}</th>
-	</tr>
-	<tr>
-		<th>Year</th>
-		<th>{{ movie.year }}</th>
-	</tr>
-	<tr>
-		<th>Watched?</th>
-		<th>{{ movie.watched }}</th>
-	</tr>
-	<tr>
-		<th>Date Watched</th>
-		<th>{{ movie.watch_date }}</th>
-	</tr>
-	<tr>
-		<th>Personal Rating</th>
-		<th>{{ movie.p_rating }}</th>
-	</tr>
-	<tr>
-		<th>IMDB Rating</th>
-		<th>{{ movie.imdb_rating }}</th>
-	</tr>
-	<tr>
-		<th>IMDB URL</th>
-		<th><a href="{{ movie.imdb_url }}" target="_blank">{{ movie.imdb_url }}</a></th>
-	</tr>
-	<tr>
-		<th>RT Rating</th>
-		<th>{{ movie.rt_rating }}</th>
-	</tr>
-	<tr>
-		<th>RT URL</th>
-		<th><a href="{{ movie.rt_url }}" target="_blank">{{ movie.rt_url }}</a></th>
-	</tr>
-	<tr>
-		<th>Genre</th>
-		<th>
-		{% for categories in movie.categories.all %}
-			{{ categories }}
-		{% endfor %}
-		</th>
-	</tr>
-	<tr>
-		<th>Comment</th>
-		<th>{{ movie.comment }}</th>
-	</tr>
-	</table>
+	<div style='float:left'>
+		<table>
+		<tr>
+			<th>Name</th>
+			<th>{{ movie.name }}</th>
+		</tr>
+		<tr>
+			<th>Year</th>
+			<th>{{ movie.year }}</th>
+		</tr>
+		<tr>
+			<th>Watched?</th>
+			<th>{{ movie.watched }}</th>
+		</tr>
+		<tr>
+			<th>Date Watched</th>
+			<th>{{ movie.watch_date }}</th>
+		</tr>
+		<tr>
+			<th>Personal Rating</th>
+			<th>{{ movie.p_rating }}</th>
+		</tr>
+		<tr>
+			<th>IMDB Rating</th>
+			<th>{{ movie.imdb_rating }}</th>
+		</tr>
+		<tr>
+			<th>IMDB URL</th>
+			<th><a href="{{ movie.imdb_url }}" target="_blank">{{ movie.imdb_url }}</a></th>
+		</tr>
+		<tr>
+			<th>RT Rating</th>
+			<th>{{ movie.rt_rating }}</th>
+		</tr>
+		<tr>
+			<th>RT URL</th>
+			<th><a href="{{ movie.rt_url }}" target="_blank">{{ movie.rt_url }}</a></th>
+		</tr>
+		<tr>
+			<th>Genre</th>
+			<th>
+			{% for categories in movie.categories.all %}
+				{{ categories }}
+			{% endfor %}
+			</th>
+		</tr>
+		<tr>
+			<th>Comment</th>
+			<th>{{ movie.comment }}</th>
+		</tr>
+		</table>
+	</div>
 {% else %}
     <p>Cannot find.</p>
 {% endif %}
 
-<a href="{{ request.META.HTTP_REFERER }}">Back</a>
-<a href="{% url 'tommymovies:edit' movie.id %}">Edit</a>
+<button style='clear:both;display:block;' class ="myButton"><a href="{{ request.META.HTTP_REFERER }}" style='color:#ffffff' >Back</a></button>
+<button style='clear:both;display:block;' class ="myButton"><a href="{% url 'tommymovies:edit' movie.id %}" style='color:#ffffff' >Edit</a> </button>
+
 
 {% if form.errors %}
     {% for field in form %}

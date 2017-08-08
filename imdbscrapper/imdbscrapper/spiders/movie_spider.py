@@ -2,6 +2,7 @@ import scrapy
 from scrapy.loader import ItemLoader
 from imdbscrapper.items import MovieItem
 from six import string_types
+from scrapy.selector import HtmlXPathSelector
 
 class MovieSpider(scrapy.Spider):
 	name = "movie"
@@ -17,7 +18,14 @@ class MovieSpider(scrapy.Spider):
 			item['name'] = movie.css('div.title_wrapper h1::text').extract_first()
 			item['year'] = movie.css('div.title_wrapper span a::text').extract_first()
 			item['imdb_rating'] = movie.css('div.ratingValue strong span::text').extract()
-			item['duration'] = movie.css('div.subtext time::text').extract()
+			item['duration'] = movie.css('div.subtext time::text').extract_first().strip()
+
+			#hxs = scrapy.Selector(response)
+			#item['imdb_img'] = movie.css('div.poster').select('//a[contains(@href, "image")]/img/@src').extract()
+
+			item['imdb_img'] = movie.select('//div[@class="poster"]/a/img/@src').extract()
+			self.logger.info('Logged: IMDB_IMG %s', item['imdb_img'])
+
 			for genre in response.css('div.subtext a'):
 				print(genre.css('span.itemprop::text').extract_first())
 				#item['genre'] = genre.css('span.itemprop::text').extract_first()
@@ -28,7 +36,7 @@ class MovieSpider(scrapy.Spider):
 			item['imdb_url'] = response.url
 
 			item['name'] = item['name'].replace(u'\xa0', u' ')
-			search_url = 'http://www.bing.com/search?q=rotten+tomatoes+' + item['name']
+			search_url = 'http://www.bing.com/search?q=rotten+tomatoes+' + item['name'] + '+' + item['year']
 			proper_string = isinstance(search_url, string_types)
 			self.logger.info('Logged: search_url proper_string %s', proper_string)
 
